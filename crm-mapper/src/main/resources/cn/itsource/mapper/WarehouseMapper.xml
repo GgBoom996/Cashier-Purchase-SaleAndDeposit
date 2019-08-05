@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.itsource.mapper.WarehouseMapper" >
+
+  <resultMap id="BaseResultMap" type="cn.itsource.domain.Warehouse" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="warehouse_address" property="warehouseAddress" jdbcType="VARCHAR" />
+    <result column="add_time" property="addTime" jdbcType="TIMESTAMP" />
+    <result column="warehouse_status" property="warehouseStatus" jdbcType="BIT" />
+    <result column="store_id" property="storeId" jdbcType="BIGINT" />
+    <result column="product_value" property="productValue" jdbcType="DECIMAL" />
+    <association property="storemanage" javaType="cn.itsource.domain.Storemanage">
+      <id column="id" property="id" jdbcType="BIGINT" />
+      <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from warehouse
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.itsource.domain.Warehouse" useGeneratedKeys="true" keyProperty="id" >
+    insert into warehouse (contacts, warehouse_address, add_time, 
+      warehouse_status, store_id, product_value
+      )
+    values (#{contacts,jdbcType=VARCHAR}, #{warehouseAddress,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{warehouseStatus,jdbcType=BIT}, #{storeId,jdbcType=BIGINT}, #{productValue,jdbcType=DECIMAL}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.itsource.domain.Warehouse" >
+    update warehouse
+    set contacts = #{contacts,jdbcType=VARCHAR},
+      warehouse_address = #{warehouseAddress,jdbcType=VARCHAR},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      warehouse_status = #{warehouseStatus,jdbcType=BIT},
+      store_id = #{storeId,jdbcType=BIGINT},
+      product_value = #{productValue,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, contacts, warehouse_address, add_time, warehouse_status, store_id, product_value
+    from warehouse
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectForList" resultMap="BaseResultMap" >
+    select w.id, w.contacts, w.warehouse_address, w.add_time, w.warehouse_status, w.store_id, w.product_value
+    , s.store_name
+    from warehouse w JOIN storemanage s ON w.store_id = s.id
+  </select>
+</mapper>

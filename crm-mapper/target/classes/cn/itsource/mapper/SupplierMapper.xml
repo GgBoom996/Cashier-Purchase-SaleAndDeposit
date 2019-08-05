@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itsource.mapper.SupplierMapper" >
+  <resultMap id="BaseResultMap" type="cn.itsource.domain.Supplier" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+    <result column="payable" property="payable" jdbcType="DECIMAL" />
+    <result column="refunds_receivable" property="refundsReceivable" jdbcType="DECIMAL" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="contact_number" property="contactNumber" jdbcType="BIGINT" />
+    <result column="add_time" property="addTime" />
+    <result column="employee_id" property="employeeId" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from supplier
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.itsource.domain.Supplier" useGeneratedKeys="true" keyProperty="id" >
+    insert into supplier (supplier, payable, refunds_receivable, 
+      contacts, contact_number, add_time, 
+      employee_id, remarks)
+    values (#{supplier,jdbcType=VARCHAR}, #{payable,jdbcType=DECIMAL}, #{refundsReceivable,jdbcType=DECIMAL}, 
+      #{contacts,jdbcType=VARCHAR}, #{contactNumber,jdbcType=BIGINT}, #{addTime,jdbcType=TIMESTAMP},
+      #{employeeId,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.itsource.domain.Supplier" >
+    update supplier
+    set supplier = #{supplier,jdbcType=VARCHAR},
+      payable = #{payable,jdbcType=DECIMAL},
+      refunds_receivable = #{refundsReceivable,jdbcType=DECIMAL},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      contact_number = #{contactNumber,jdbcType=BIGINT},
+      add_time = #{addTime},
+      employee_id = #{employeeId,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey"  parameterType="java.lang.Long" resultMap="BaseResultMap" >
+    select id, supplier, payable, refunds_receivable, contacts, contact_number, add_time,
+    employee_id, remarks
+    from supplier
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectForList" resultMap="BaseResultMap" >
+    select id, supplier, payable, refunds_receivable, contacts, contact_number, add_time, 
+    employee_id, remarks
+    from supplier
+  </select>
+</mapper>

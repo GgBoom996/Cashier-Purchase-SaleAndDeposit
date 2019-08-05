@@ -1,0 +1,10 @@
+cn\itsource\query\MenuQuery.class
+cn\itsource\query\BaseQuery.class
+cn\itsource\service\impl\BaseServiceImpl.class
+cn\itsource\query\PermissionQuery.class
+cn\itsource\query\SupplierQuery.class
+cn\itsource\query\EmployeeQuery.class
+cn\itsource\mapper\BaseMapper.class
+cn\itsource\query\MyPageQuery.class
+cn\itsource\query\RoleQuery.class
+cn\itsource\service\IBaseService.class

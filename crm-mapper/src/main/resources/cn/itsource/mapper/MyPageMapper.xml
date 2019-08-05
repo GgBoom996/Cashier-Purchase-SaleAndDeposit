@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itsource.mapper.MyPageMapper" >
+  <resultMap id="BaseResultMap" type="cn.itsource.domain.MyPage" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="shop_name" property="shopName" jdbcType="VARCHAR" />
+    <result column="shopkeepers_name" property="shopkeepersName" jdbcType="VARCHAR" />
+    <result column="wechat_account" property="wechatAccount" jdbcType="INTEGER" />
+    <result column="industry_type" property="industryType" jdbcType="VARCHAR" />
+    <result column="shop_abbreviation" property="shopAbbreviation" jdbcType="VARCHAR" />
+    <result column="shop_phone" property="shopPhone" jdbcType="INTEGER" />
+    <result column="registration_time" property="registrationTime" jdbcType="TIMESTAMP" />
+    <result column="shop_address" property="shopAddress" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from mypage
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.itsource.domain.MyPage" useGeneratedKeys="true" keyProperty="id" >
+    insert into mypage (shop_name, shopkeepers_name, wechat_account, 
+      industry_type, shop_abbreviation, shop_phone, 
+      registration_time, shop_address)
+    values (#{shopName,jdbcType=VARCHAR}, #{shopkeepersName,jdbcType=VARCHAR}, #{wechatAccount,jdbcType=INTEGER}, 
+      #{industryType,jdbcType=VARCHAR}, #{shopAbbreviation,jdbcType=VARCHAR}, #{shopPhone,jdbcType=INTEGER}, 
+      #{registrationTime,jdbcType=TIMESTAMP}, #{shopAddress,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.itsource.domain.MyPage" >
+    update mypage
+    set shop_name = #{shopName,jdbcType=VARCHAR},
+      shopkeepers_name = #{shopkeepersName,jdbcType=VARCHAR},
+      wechat_account = #{wechatAccount,jdbcType=INTEGER},
+      industry_type = #{industryType,jdbcType=VARCHAR},
+      shop_abbreviation = #{shopAbbreviation,jdbcType=VARCHAR},
+      shop_phone = #{shopPhone,jdbcType=INTEGER},
+      registration_time = #{registrationTime,jdbcType=TIMESTAMP},
+      shop_address = #{shopAddress,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, shop_name, shopkeepers_name, wechat_account, industry_type, shop_abbreviation, 
+    shop_phone, registration_time, shop_address
+    from mypage
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectForList" resultMap="BaseResultMap" >
+    select id, shop_name, shopkeepers_name, wechat_account, industry_type, shop_abbreviation, 
+    shop_phone, registration_time, shop_address
+    from mypage
+  </select>
+</mapper>

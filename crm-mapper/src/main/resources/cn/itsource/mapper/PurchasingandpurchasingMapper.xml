@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="cn.itsource.mapper.PurchasingandpurchasingMapper" >
+  <resultMap id="BaseResultMap" type="cn.itsource.domain.Purchasingandpurchasing" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="document_number" property="documentNumber" jdbcType="VARCHAR" />
+    <result column="total_amount" property="totalAmount" jdbcType="DECIMAL" />
+    <result column="payment_amount" property="paymentAmount" jdbcType="DECIMAL" />
+    <result column="storemanage_id" property="storemanageId" jdbcType="BIGINT" />
+    <result column="order_status" property="orderStatus" />
+    <result column="make_time" property="makeTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <association property="storemanage" javaType="cn.itsource.domain.Storemanage">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="store_name" property="storeName" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from purchasingandpurchasing
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="cn.itsource.domain.Purchasingandpurchasing" useGeneratedKeys="true" keyProperty="id" >
+    insert into purchasingandpurchasing (document_number, total_amount,
+      payment_amount, storemanage_id, make_time, 
+      remarks)
+    values (#{documentNumber,jdbcType=VARCHAR}, #{totalAmount,jdbcType=DECIMAL},
+      #{paymentAmount,jdbcType=DECIMAL}, #{storemanageId,jdbcType=BIGINT}, #{makeTime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="cn.itsource.domain.Purchasingandpurchasing" >
+    update purchasingandpurchasing
+    set document_number = #{documentNumber,jdbcType=VARCHAR},
+      orderdetail_id = #{orderdetailId,jdbcType=BIGINT},
+      total_amount = #{totalAmount,jdbcType=DECIMAL},
+      payment_amount = #{paymentAmount,jdbcType=DECIMAL},
+      storemanage_id = #{storemanageId,jdbcType=BIGINT},
+      make_time = #{makeTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, document_number, orderdetail_id, total_amount, payment_amount, storemanage_id, 
+    make_time, remarks
+    from purchasingandpurchasing
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectForList" resultMap="BaseResultMap" >
+    select p.id, p.document_number, p.total_amount, p.payment_amount, p.storemanage_id, p.make_time, p.remarks,p.order_status
+    , s.store_name
+    from purchasingandpurchasing p JOIN storemanage s ON p .storemanage_id = s.id
+  </select>
+
+</mapper>

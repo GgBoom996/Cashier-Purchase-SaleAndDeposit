@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itsource.mapper.ProductMapper" >
+  <resultMap id="BaseResultMap" type="cn.itsource.domain.Product" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="input_price" property="inputPrice" jdbcType="DECIMAL" />
+    <result column="out_price" property="outPrice" jdbcType="DECIMAL" />
+    <result column="product_num" property="productNum" jdbcType="BIGINT" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_code" property="productCode" jdbcType="BIGINT" />
+    <result column="unit_id" property="unitId" jdbcType="BIGINT" />
+    <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+
+    <association property="type"  columnPrefix="t_" javaType="cn.itsource.domain.Producttype">
+      <id property="id" column="id"></id>
+      <result property="typeName" column="type_name"></result>
+      <result property="parentId" column="parent_id"></result>
+    </association>
+  </resultMap>
+<!--  <resultMap id="nestResultMap" type="cn.itsource.domain.Product" extends="BaseResultMap">
+    <association property="type" columnPrefix="t_" javaType="cn.itsource.domain.Producttype">
+      <id property="id" column="id"></id>
+      <result property="name" column="name"></result>
+    </association>
+  </resultMap>-->
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from product
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.itsource.domain.Product" useGeneratedKeys="true" keyProperty="id" >
+    insert into product (input_price, out_price, product_num,
+    product_name, product_code, type_id,
+    unit_id, brand_id)
+    values (#{inputPrice,jdbcType=DECIMAL}, #{outPrice,jdbcType=DECIMAL}, #{productNum,jdbcType=BIGINT},
+    #{productName,jdbcType=VARCHAR}, #{productCode,jdbcType=BIGINT}, #{type.id,jdbcType=BIGINT},
+    #{unitId,jdbcType=BIGINT}, #{brandId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.itsource.domain.Product" >
+    update product
+    set input_price = #{inputPrice,jdbcType=DECIMAL},
+    out_price = #{outPrice,jdbcType=DECIMAL},
+    product_num = #{productNum,jdbcType=BIGINT},
+    product_name = #{productName,jdbcType=VARCHAR},
+    product_code = #{productCode,jdbcType=BIGINT},
+    type_id = #{type.id,jdbcType=BIGINT},
+    unit_id = #{unitId,jdbcType=BIGINT},
+    brand_id = #{brandId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, input_price, out_price, product_num, product_name, product_code, type_id, 
+    unit_id, brand_id
+    from product
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <!--关键字查询-->
+  <sql id="base_where">
+    <where>
+      <if test="keyword != null">
+        and ( product_name like concat("%",#{keyword},"%"))
+      </if>
+    </where>
+  </sql>
+<!--  <select id="selectForList" resultMap="nestResultMap" >
+    SELECT
+    p.*, t.`name` t_name ,t.id t_id
+    FROM
+    product p
+    JOIN producttype t ON p.type_id = t.id
+
+  </select>-->
+  <select id="selectForList" resultMap="BaseResultMap" >
+    SELECT
+    p.*,
+    t.type_name t_type_name,
+    t.id t_id,
+    t.parent_id t_parent_id
+    FROM
+    product p
+    left JOIN producttype t ON p.type_id = t.id
+    <include refid="base_where" />
+  </select>
+
+  <select id="selectAl" resultMap="BaseResultMap" >
+    SELECT
+    t.type_name t_type_name,
+    t.id t_id,
+    t.parent_id t_parent_id
+    FROM
+    producttype t
+    <include refid="base_where" />
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, input_price, out_price, product_num, product_name, product_code, type_id,
+    unit_id, brand_id
+    from product
+  </select>
+  <select id="findAll" resultType="cn.itsource.domain.Producttype"></select>
+</mapper>

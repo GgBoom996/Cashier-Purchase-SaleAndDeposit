@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itsource.mapper.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="cn.itsource.domain.Employee" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="post_id" property="postId" jdbcType="VARCHAR" />
+    <result column="iphone" property="iphone" jdbcType="INTEGER" />
+    <result column="pay" property="pay" jdbcType="INTEGER" />
+    <result column="shop" property="shopId" jdbcType="VARCHAR" />
+    <result column="Initiationtime" property="initiationtime" jdbcType="DATE" />
+    <result column="addtime" property="addtime" jdbcType="DATE" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from employee
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.itsource.domain.Employee" useGeneratedKeys="true" keyProperty="id" >
+    insert into employee (username, password, age, 
+      post_id, iphone, pay, 
+      shop, Initiationtime, addtime
+      )
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{postId,jdbcType=VARCHAR}, #{iphone,jdbcType=INTEGER}, #{pay,jdbcType=INTEGER}, 
+      #{shop,jdbcType=VARCHAR}, #{initiationtime,jdbcType=DATE}, #{addtime,jdbcType=DATE}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.itsource.domain.Employee" >
+    update employee
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      post_id = #{postId,jdbcType=VARCHAR},
+      iphone = #{iphone,jdbcType=INTEGER},
+      pay = #{pay,jdbcType=INTEGER},
+      shop = #{shopId,jdbcType=VARCHAR},
+      Initiationtime = #{initiationtime,jdbcType=DATE},
+      addtime = #{addtime,jdbcType=DATE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, username, password, age, post_id, iphone, pay, shop, Initiationtime, addtime
+    from employee
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectForList" resultMap="BaseResultMap" parameterType="cn.itsource.domain.Employee" >
+    select id, username, password, age, post_id, iphone, pay, shop, Initiationtime, addtime
+    from employee
+  </select>
+
+
+
+  <select id="findEmployeeByUsername" resultMap="BaseResultMap" parameterType="cn.itsource.domain.Employee">
+    select id, username, password, age, post_id, iphone, pay, shop, Initiationtime, addtime
+    from employee
+    where username=#{username}
+  </select>
+</mapper>

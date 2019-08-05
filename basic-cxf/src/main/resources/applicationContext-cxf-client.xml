@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+    <!--cxf的客户端bean：
+                      id="helloClient"   beanId
+                      serviceClass="cn.itsource.client.emp.IUserService"客户端接口文件
+                      address="http://localhost:8088/service/HelloWorld"服务端地址
+        -->
+    <!--<jaxws:client id="mobileCodeWSSoap"
+                  serviceClass="cn.itsource.service.mobilecode.MobileCodeWSSoap"
+                  address="http://ws.webxml.com.cn/WebServices/MobileCodeWS.asmx"/>-->
+    <jaxws:client id="mobileCodeWSSoap"
+                  serviceClass="cn.itsource.service.client.MobileCodeWSSoap"
+                  address="http://ws.webxml.com.cn/WebServices/MobileCodeWS.asmx"/>
+</beans>

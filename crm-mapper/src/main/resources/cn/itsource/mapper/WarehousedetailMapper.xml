@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itsource.mapper.WarehousedetailMapper" >
+  <resultMap id="BaseResultMap" type="cn.itsource.domain.Warehousedetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="product_num" property="productNum" jdbcType="BIGINT" />
+    <result column="product_value" property="productValue" jdbcType="DECIMAL" />
+    <result column="warehouse_id" property="warehouseId" jdbcType="BIGINT" />
+    <association property="product" javaType="cn.itsource.domain.Product">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="input_price" property="inputPrice" jdbcType="DECIMAL" />
+        <result column="product_name" property="productName" jdbcType="VARCHAR" />
+        <result column="product_code" property="productCode" jdbcType="BIGINT" />
+    </association>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from warehousedetail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.itsource.domain.Warehousedetail" useGeneratedKeys="true" keyProperty="id" >
+    insert into warehousedetail (product_id, product_num, product_value, 
+      warehouse_id)
+    values (#{productId,jdbcType=BIGINT}, #{productNum,jdbcType=BIGINT}, #{productValue,jdbcType=DECIMAL}, 
+      #{warehouseId,jdbcType=BIGINT})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.itsource.domain.Warehousedetail" >
+    update warehousedetail
+    set product_id = #{productId,jdbcType=BIGINT},
+      product_num = #{productNum,jdbcType=BIGINT},
+      product_value = #{productValue,jdbcType=DECIMAL},
+      warehouse_id = #{warehouseId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, product_id, product_num, product_value, warehouse_id
+    from warehousedetail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, product_id, product_num, product_value, warehouse_id
+    from warehousedetail
+  </select>
+
+  <select id="selectProduct" resultMap="BaseResultMap">
+    select id, product_id, product_num, product_value, warehouse_id
+    from warehousedetail
+    where product_id = #{productid} and warehouse_id = #{storeid}
+  </select>
+
+  <select id="selectByStoreId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select w.id, w.product_id, w.product_num, w.product_value, w.warehouse_id
+    ,p.input_price,p.product_name,p.product_code
+    from warehousedetail w JOIN product p ON  w.product_id = p.id
+    where warehouse_id = #{warehouseId}
+  </select>
+</mapper>

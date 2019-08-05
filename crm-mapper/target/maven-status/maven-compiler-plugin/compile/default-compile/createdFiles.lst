@@ -1,0 +1,15 @@
+cn\itsource\mapper\ProducttypeMapper.class
+cn\itsource\mapper\SupplierMapper.class
+cn\itsource\mapper\StoremanageMapper.class
+cn\itsource\mapper\EmployeeMapper.class
+cn\itsource\mapper\MemberMapper.class
+cn\itsource\mapper\OrderdetailMapper.class
+cn\itsource\mapper\ProductMapper.class
+cn\itsource\mapper\MyPageMapper.class
+cn\itsource\mapper\WarehousedetailMapper.class
+cn\itsource\App.class
+cn\itsource\mapper\WarehouseMapper.class
+cn\itsource\mapper\MenuMapper.class
+cn\itsource\mapper\PermissionMapper.class
+cn\itsource\mapper\PurchasingandpurchasingMapper.class
+cn\itsource\mapper\RoleMapper.class

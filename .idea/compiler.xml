@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="basic-core" />
+        <module name="basic-util" />
+        <module name="crm-common" />
+        <module name="crm-mapper" />
+        <module name="crm-service" />
+        <module name="crm-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="basic-core" target="1.8" />
+      <module name="basic-util" target="1.8" />
+      <module name="crm-common" target="1.8" />
+      <module name="crm-mapper" target="1.8" />
+      <module name="crm-service" target="1.8" />
+      <module name="crm-web" target="1.8" />
+      <module name="itsource-parent" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

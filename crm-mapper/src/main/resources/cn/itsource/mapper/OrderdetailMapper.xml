@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itsource.mapper.OrderdetailMapper" >
+
+  <resultMap id="BaseResultMap" type="cn.itsource.domain.Orderdetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="product_id" property="productId" jdbcType="BIGINT" />
+    <result column="product_num" property="productNum" jdbcType="BIGINT" />
+    <result column="prodct_totalnum" property="prodctTotalnum" jdbcType="DECIMAL" />
+    <result column="purchasingandpurchasing_id" property="purchasingandpurchasingId" jdbcType="BIGINT" />
+    <association property="product" javaType="cn.itsource.domain.Product">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="input_price" property="inputPrice" jdbcType="DECIMAL" />
+        <result column="product_name" property="productName" jdbcType="VARCHAR" />
+        <result column="product_code" property="productCode" jdbcType="BIGINT" />
+    </association>
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from orderdetail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="cn.itsource.domain.Orderdetail" useGeneratedKeys="true" keyProperty="id" >
+    insert into orderdetail (product_id, product_num, prodct_totalnum, 
+      purchasingandpurchasing_id)
+    values (#{productId,jdbcType=BIGINT}, #{productNum,jdbcType=BIGINT}, #{prodctTotalnum,jdbcType=DECIMAL}, 
+      #{purchasingandpurchasingId,jdbcType=BIGINT})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="cn.itsource.domain.Orderdetail" >
+    update orderdetail
+    set product_id = #{productId,jdbcType=BIGINT},
+      product_num = #{productNum,jdbcType=BIGINT},
+      prodct_totalnum = #{prodctTotalnum,jdbcType=DECIMAL},
+      purchasingandpurchasing_id = #{purchasingandpurchasingId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, product_id, product_num, prodct_totalnum, purchasingandpurchasing_id
+    from orderdetail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, product_id, product_num, prodct_totalnum, purchasingandpurchasing_id
+    from orderdetail
+  </select>
+
+  <select id="selectbyid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select o.id, o.product_id, o.product_num, o.prodct_totalnum, o.purchasingandpurchasing_id
+    ,p.input_price,p.product_name,p.product_code
+    from orderdetail o JOIN product p ON o.product_id = p.id WHERE o.purchasingandpurchasing_id = #{id}
+  </select>
+</mapper>

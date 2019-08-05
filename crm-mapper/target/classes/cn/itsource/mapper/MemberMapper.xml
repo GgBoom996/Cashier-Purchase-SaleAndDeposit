@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itsource.mapper.MemberMapper" >
+  <resultMap id="BaseResultMap" type="cn.itsource.domain.Member" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="integral" property="integral" jdbcType="BIGINT" />
+    <result column="balance" property="balance" jdbcType="DECIMAL" />
+    <result column="storemanage_id" property="storemanageId" jdbcType="BIGINT" />
+    <result column="total" property="total" jdbcType="DECIMAL" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <collection property="storemanage" javaType="cn.itsource.domain.Storemanage">
+      <id column="id" property="id"/>
+      <result column="store_name" property="storeName"/>
+    </collection>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from member
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.itsource.domain.Member" useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
+    insert into member (user_name, nick_name, password, 
+      tel, state, integral,
+      balance, storemanage_id, total, 
+      birthday)
+    values (#{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{integral,jdbcType=BIGINT},
+      #{balance,jdbcType=DECIMAL}, #{storemanageId,jdbcType=BIGINT}, #{total,jdbcType=DECIMAL}, 
+      #{birthday,jdbcType=DATE})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="cn.itsource.domain.Member" >
+    update member
+    set user_name = #{userName,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      integral = #{integral,jdbcType=BIGINT},
+      balance = #{balance,jdbcType=DECIMAL},
+      storemanage_id = #{storemanageId,jdbcType=BIGINT},
+      total = #{total,jdbcType=DECIMAL},
+      birthday = #{birthday,jdbcType=DATE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, user_name, nick_name, password, tel, state, integral, balance, storemanage_id,
+    total, birthday
+    from member
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectForList" resultMap="BaseResultMap" >
+    select m.id, m.user_name, m.nick_name, m.password, m.tel, m.state, m.integral, m.balance, s.store_name,
+    m.storemanage_id,
+    m.total, m.birthday
+    from member m LEFT JOIN storemanage s
+    on m.storemanage_id = s.id
+  </select>
+
+
+  <sql id="base_where">
+    <where>
+      <if test="keyword != null">
+        and ( member.user_name like concat("%",#{keyword},"%") or member.nick_name like concat("%",#{keyword},"%") )
+      </if>
+    </where>
+  </sql>
+  <select id="selectKeywords" resultMap="BaseResultMap" >
+    select m.id, m.user_name, m.nick_name, m.password, m.tel, m.state, m.integral, m.balance, s.store_name,
+    m.storemanage_id,
+    m.total, m.birthday
+    from member m LEFT JOIN storemanage s
+    on m.storemanage_id = s.id
+  <include refid="base_where" />
+  </select>
+</mapper>
